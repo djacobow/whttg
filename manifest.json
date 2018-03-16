@@ -1,0 +1,45 @@
+{
+    "manifest_version":2,
+    "name":"Where has the time gone?",
+    "short_name":"Where has the time gone?",
+    "description":"Tracks how much time your are spending/wasting on different websites.",
+    "author":"Dave Jacobowitz",
+    "options_ui":{
+        "page":"options.html",
+        "chrome_style":true
+    },
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.gstatic.com; object-src 'self'",
+    "version":"0.0.1",
+    "permissions":[
+        "https://www.gstatic.com/*",
+        "storage",
+        "alarms",
+        "tabs"
+    ],
+    "background":{
+        "persistent":false,
+        "scripts":[
+            "timekeeper.js"
+        ]
+    },
+    "browser_action":{
+        "default_icon":{
+            "128":"icons/ic-128.png"
+        },
+        "default_title":"Configure W'dTTG",
+        "default_popup":"options.html"
+    },
+    "icons":{
+        "128":"icons/ic-128.png",
+        "200":"icons/ic-200.png",
+        "400":"icons/ic-400.png"
+    },
+    "applications":{
+        "gecko":{
+            "id":"@whttg"
+        }
+    },
+    "web_accessible_resources":[
+        "empty_image.png"
+    ]
+}

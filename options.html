@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Where has the time gone?</title>
+    <style>
+
+body {
+   font-family: Arial, sans-serif; 
+   font-size: 11px; 
+   min-width: 650;
+   background-color: white;
+}
+
+div#timechart{
+    min-height: 500px;
+    min-width: 500px;
+    width: 550px;
+    left: auto;
+}
+    </style>
+  </head>
+  <body>
+  <div>
+    <div id="title">
+        <div style="font-size: 125%; font-weight: bold;">Golly! Where has the time gone?</div>
+        <br>
+        <div>This little extension tracks the time you spend on each tab and 
+        reports the totals by date range and host domain. Time spent in other
+        apps while the browser is open is tracked, but time spent with the 
+        browser closed is not.</div>
+        <div style="text-align: right">
+          <a href="https://toolsofourtools.org/whttg" target="_blank">About</a>, 
+          <a href="https://github.org/djacobow/whttg" target="_blank">Github</a>
+        </div>
+    </div>
+    <hr>
+
+    <div id="controls">
+        <div style="font-weight: bold;">Options</div>
+        <table width="90%">
+            <tr>
+                <td width="50%">
+                    Date Range: <select id="timerange">
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="1week">Last Week</option>
+                        <option value="2week">Last Fortnight</option>
+                    </select>
+                </td>
+                <td width="50%">
+                    What defines a page in use: <select id="type">
+                        <option value="active">Has Focus</option>
+                        <option value="showing">Visible</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Host names: <select id="toponly">
+                        <option value="true">Domain only</option>
+                        <option value="false">Full name</option>
+                    </select>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr>
+    <div style="font-weight: bold;">Results</div>
+    <br>
+    <div id="messages">
+        <span id="total_minutes"></span><br>
+        <span id="browser_minutes"></span>
+    </div>
+    <div id="timechart"></div>
+    <hr>
+    <div id="statusdiv"></div>
+    <hr>
+    <div>
+        <input type="button" value="Clear All Data" id="dclear"><br>
+    </div>
+    <div id="scriptdiv">
+      <script src="defaults.js"></script>
+      <script src="google_loader.js"></script>
+      <script src="shared.js"></script>
+      <script src="options.js"></script>
+    </div>
+  </div>
+  </body>
+</html>
