@@ -9,9 +9,8 @@
         "chrome_style":true
     },
     "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.gstatic.com; object-src 'self'",
-    "version":"0.0.2",
+    "version":"0.0.4",
     "permissions":[
-        "https://www.gstatic.com/*",
         "storage",
         "alarms",
         "tabs"
