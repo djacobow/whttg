@@ -139,6 +139,11 @@ var drawChart = function(target, from, to, group, cb = null) {
             daterange += ' to ' + to.toDateString();
         }
         var choptions = {
+            chartArea: {
+                width: '95%',
+                height: '95%',
+            },
+            backgroundColor: '#dee6f2',
             width: 500,
             height: 500,
             title: 'How I spent ' + daterange + '.',
