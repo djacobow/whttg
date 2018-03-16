@@ -118,6 +118,10 @@ var drawChart = function(target, from, to, group, cb = null) {
         var data = [['site','minutes']];
         var total_minutes = 0;
         var total_browser_minutes = 0;
+        if (!gd) {
+            if (cb) cb('no_data');
+            return;
+        }
         Object.keys(gd).forEach(function(hostname) {
             var minutes = gd[hostname];
             data.push([hostname, minutes]);
