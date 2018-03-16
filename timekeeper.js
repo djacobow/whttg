@@ -1,14 +1,20 @@
 /* jshint esversion:6 */
 
+var count = 0;
+var cleanup_freq = 120;
+
 var alarmListener = function(alarm) {
     if (alarm.name == 'wdttg_alarm') {
         getActiveHosts(function(ge,gd) {
             if (!ge) {
                 updateHostData(gd,function(ue,ud) {
-                    console.log(ue,ud);
+                    // console.log(ue,ud);
                 });
             }
         });
+        /*jshint -W018 */
+        if (!(count % cleanup_freq)) removeAncientData();
+        count += 1;
     }
 };
 
@@ -36,6 +42,25 @@ var DateToDateString = function(idt) {
     d.setHours(0,0,0,0);
     return d.toISOString();
 };
+
+var removeAncientData = function() {
+    console.log('removeAncientData');
+    chrome.storage.local.get(['hostdata'],function(sdata) {
+        if (sdata && sdata.hostdata) {
+            var now = new Date();
+            var m15d = new Date();
+            m15d.setDate(now.getDate() - 15);
+            Object.keys(sdata.hostdata).forEach(function(dtstr) {
+                var then = new Date(dtstr);
+                if (then <= m15d) {
+                    delete sdata.hostdata[dtstr];
+                }
+            });
+            chrome.storage.local.set({hostdata: sdata.hostdata});
+        }
+    });
+};
+
 
 var updateHostData = function(current,cb) {
    chrome.storage.local.get(['hostdata'],function(sdata) {
