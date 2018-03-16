@@ -9,7 +9,7 @@
         "chrome_style":true
     },
     "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.gstatic.com; object-src 'self'",
-    "version":"0.0.1",
+    "version":"0.0.2",
     "permissions":[
         "https://www.gstatic.com/*",
         "storage",
