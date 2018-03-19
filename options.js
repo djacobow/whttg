@@ -138,22 +138,34 @@ var drawChart = function(target, from, to, group, cb = null) {
         if (from.getDate() != to.getDate()) {
             daterange += ' to ' + to.toDateString();
         }
+        var chtype = cfg.get('graphtype');
         var choptions = {
-            chartArea: {
-                width: '95%',
-                height: '95%',
-            },
+            legend: 'none',
             backgroundColor: '#dee6f2',
             width: 500,
             height: 500,
             title: 'How I spent ' + daterange + '.',
-            legend: 'none',
-            pieSliceText: 'label',
         };
-        var chtype = 'pie';
         switch (chtype) {
             case 'pie':
+                choptions.pieSliceText = 'label';
+                choptions.chartArea = {
+                    width: '95%',
+                    height: '95%',
+                };
                 chart = new google.visualization.PieChart(target);
+                break;
+            case 'column':
+                /*
+                choptions.chartArea = {
+                    width: '65%',
+                    height: '65%',
+                };
+                */
+                choptions.vAxis = {
+                    title: 'minutes',
+                };
+                chart = new google.visualization.ColumnChart(target);
                 break;
             default:
                 chart = new google.visualization.PieChart(target);
@@ -243,7 +255,8 @@ function options_init() {
     cfg.linkToControl([
         { element: 'type',      variable: 'type', },
         { element: 'toponly',   variable: 'toponly', },
-        { element: 'timerange', variable: 'timerange', }
+        { element: 'timerange', variable: 'timerange', },
+        { element: 'graphtype', variable: 'graphtype', },
     ]);
 
     document.addEventListener('DOMContentLoaded', function() {
