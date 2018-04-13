@@ -4,3 +4,19 @@ var defaults = {
     timerange: 'today',
     graphtype: 'pie',
 };
+
+var color_options = [
+    'red',
+    'maroon',
+    'yellow',
+    'olive',
+    'lime',
+    'green',
+    'aqua',
+    'teal',
+    'blue',
+    'navy',
+    'fuchsia',
+    'purple',
+];
+

@@ -1,2 +1,2 @@
-zip a.zip *.* icons/*.* -x *.zip
+zip a.zip *.* chartjs/*.* icons/*.* -x *.zip
 

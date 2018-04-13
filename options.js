@@ -115,62 +115,106 @@ function clearStorage( cb = null) {
 
 var drawChart = function(target, from, to, group, cb = null) {
     getData(from, to, group, function(ge,gd) {
-        var data = [['site','minutes']];
         var total_minutes = 0;
         var total_browser_minutes = 0;
         if (!gd) {
             if (cb) cb('no_data');
             return;
         }
-        Object.keys(gd).forEach(function(hostname) {
+        var labels = [];
+        var data = [];
+        var colors = [];
+        var i = 0;
+
+        hostnames = Object.keys(gd);
+        hostnames.sort(function(a,b) {
+            return gd[a] - gd[b];
+        });
+
+        hostnames.forEach(function(hostname) {
             var minutes = gd[hostname];
-            data.push([hostname, minutes]);
+            data.push(minutes);
+            labels.push(hostname);
+            colors.push(color_options[i % color_options.length]);
             total_minutes += minutes;
             if (!hostname.match(/^\[/)) total_browser_minutes += minutes;
+            i += 1;
         });
-        gebi('total_minutes').innerText = 
+        gebi('total_minutes').innerText =
             'Total minutes recorded: ' + total_minutes;
-        gebi('browser_minutes').innerText = 
+        gebi('browser_minutes').innerText =
             'Total time in browser: ' + total_browser_minutes;
-        var cdata = google.visualization.arrayToDataTable(data);
+        var canvas = document.createElement('canvas');
+        canvas.width = '95%';
+        canvas.id = 'chart-area';
+        removeChildrenReplaceWith(target, [canvas]);
+        var ctx = canvas.getContext('2d');
+
         var chart = null;
         var daterange = from.toDateString();
         if (from.getDate() != to.getDate()) {
             daterange += ' to ' + to.toDateString();
         }
         var chtype = cfg.get('graphtype');
-        var choptions = {
-            legend: 'none',
-            backgroundColor: '#dee6f2',
-            width: 500,
-            height: 500,
-            title: 'How I spent ' + daterange + '.',
+        var chconfig = {
+            options: {
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                tooltips: {
+                    enabled: true,
+                },
+                pieceLabel: {
+                    render: function(args) {
+                        return args.label + ' (' + args.value + ')';
+                    },
+                    //precision: 0,
+                    // showZero: true,
+                    fontSize: 12,
+                    fontColor: 'white',
+                    fontStyle: 'bold',
+                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                    position: 'default',
+                    // overlap: true,
+                    // showActualPercentages: true,
+                },
+            },
+
+            data: {
+                datasets: [
+                    {
+                        data: data,
+                        label: 'Minutes spent by page',
+                        backgroundColor: colors,
+                        borderColor: colors,
+                    },
+                ],
+                labels: labels,
+            }
         };
+
+       
+        var chrt;
         switch (chtype) {
-            case 'pie':
-                choptions.pieSliceText = 'label';
-                choptions.chartArea = {
-                    width: '95%',
-                    height: '95%',
-                };
-                chart = new google.visualization.PieChart(target);
-                break;
             case 'column':
-                /*
-                choptions.chartArea = {
-                    width: '65%',
-                    height: '65%',
+                chconfig.options.scales = {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'minutes',
+                        },
+                    }],
                 };
-                */
-                choptions.vAxis = {
-                    title: 'minutes',
-                };
-                chart = new google.visualization.ColumnChart(target);
+                chconfig.type = 'bar';
                 break;
+            case 'pie':
             default:
-                chart = new google.visualization.PieChart(target);
+                chconfig.type = 'pie';
         }
-        chart.draw(cdata, choptions);
+
+        chrt = new Chart(ctx,chconfig);
+        if (chrt) chrt.update();
         if (cb) return cb();
     });
 };
@@ -219,10 +263,10 @@ var drawChartWrapper = function(cb = null) {
             break;
     }
     drawChart(
-        gebi('timechart'), 
+        gebi('timechart'),
         fr_d, to_d,
         cfg.get('type'),
-        function() { 
+        function() {
             if (cb) cb();
         }
     );
@@ -260,16 +304,13 @@ function options_init() {
     ]);
 
     document.addEventListener('DOMContentLoaded', function() {
-      google.charts.load('upcoming',{'packages':['corechart','bar']});
-      google.charts.setOnLoadCallback(function() {
         cfg.load(function() {
-          var tmn = todayMidnight();
-          setTimeout(function() {
-            drawChartWrapper(function() {
-            });
-          },200);
+            var tmn = todayMidnight();
+            setTimeout(function() {
+                drawChartWrapper(function() {
+                });
+            },200);
         });
-      });
     });
 }
 

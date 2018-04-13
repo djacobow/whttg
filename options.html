@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Where has the time gone?</title>
+    <title>Web Time Tracker</title>
     <style>
 
 svg > g > g:last-child { pointer-events: none }
@@ -25,7 +25,8 @@ div#timechart{
   <body>
   <div>
     <div id="title">
-        <div style="font-size: 125%; font-weight: bold;">Golly! Where has the time gone?</div>
+        <div style="font-size: 125%; font-weight: bold;">Social Media / Web Time Tracker</div>
+        <div style="font-size: 100%; font-weight: bold; text-decoration: italic">Golly! Where has the time gone?</div>
         <br>
         <div>This little extension tracks the time you spend on each tab and 
         reports the totals by date range and host domain. Time spent in other
@@ -89,7 +90,8 @@ div#timechart{
     </div>
     <div id="scriptdiv">
       <script src="defaults.js"></script>
-      <script src="google_loader.js"></script>
+      <script src="chartjs/Chart.bundle.js"></script>
+      <script src="chartjs/Chart.PieceLabel.js"></script>
       <script src="shared.js"></script>
       <script src="options.js"></script>
     </div>
