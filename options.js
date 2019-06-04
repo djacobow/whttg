@@ -165,19 +165,21 @@ var drawChart = function(target, from, to, group, cb = null) {
                 tooltips: {
                     enabled: true,
                 },
-                pieceLabel: {
-                    render: function(args) {
-                        return args.label + ' (' + args.value + ')';
+                plugins: {
+                    labels: {
+                        render: function(args) {
+                            return args.label + ' (' + args.value + ')';
+                        },
+                        //precision: 0,
+                        // showZero: true,
+                        fontSize: 12,
+                        fontColor: 'white',
+                        fontStyle: 'bold',
+                        fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+                        position: 'default',
+                        // overlap: true,
+                        // showActualPercentages: true,
                     },
-                    //precision: 0,
-                    // showZero: true,
-                    fontSize: 12,
-                    fontColor: 'white',
-                    fontStyle: 'bold',
-                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-                    position: 'default',
-                    // overlap: true,
-                    // showActualPercentages: true,
                 },
             },
 
